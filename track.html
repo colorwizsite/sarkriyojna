@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Application - Student Laptop Yojana</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body {
+      background: #f4f7fc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      background: linear-gradient(90deg, #004aad, #0073e6);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .track-box {
+      background: white;
+      width: 95%;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h2 {
+      color: #004aad;
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: 500;
+      color: #333;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
+    button {
+      background: #004aad;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #0073e6;
+    }
+
+    .status-box {
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 10px;
+      display: none;
+      background: #f1f9ff;
+      border-left: 5px solid #0073e6;
+    }
+
+    .status {
+      font-size: 18px;
+      font-weight: bold;
+      color: #004aad;
+      margin-bottom: 10px;
+    }
+
+    .message {
+      color: #333;
+      font-size: 15px;
+    }
+
+    footer {
+      background: #004aad;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 50px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <header>📋 Track Your Application - Laptop Yojana</header>
+
+  <div class="track-box">
+    <h2>अपना आवेदन स्थिति देखें</h2>
+    <label>Application ID दर्ज करें (उदा. LPT12345)</label>
+    <input type="text" id="appID" placeholder="Enter Application ID">
+
+    <button onclick="trackApplication()">🔍 Track Application</button>
+
+    <div class="status-box" id="statusBox">
+      <div class="status" id="statusText"></div>
+      <div class="message" id="messageText"></div>
+    </div>
+  </div>
+
+  <footer>© 2025 Student Laptop Yojana | Government of India</footer>
+
+  <script>
+    function trackApplication() {
+      const id = document.getElementById("appID").value.trim();
+      const box = document.getElementById("statusBox");
+      const statusText = document.getElementById("statusText");
+      const messageText = document.getElementById("messageText");
+
+      if (id === "") {
+        alert("कृपया Application ID दर्ज करें।");
+        return;
+      }
+
+      // Demo fake status generator
+      const statuses = [
+        { status: "Under Review", msg: "आपका आवेदन सफलतापूर्वक प्राप्त हो गया है और समीक्षा में है।" },
+        { status: "Verified", msg: "आपके दस्तावेज़ सत्यापित कर दिए गए हैं।" },
+        { status: "Approved", msg: "आपका आवेदन स्वीकृत हो गया है। लैपटॉप वितरण की तैयारी चल रही है।" },
+        { status: "Dispatched", msg: "आपका लैपटॉप/राशि वितरण के लिए भेजा जा चुका है।" },
+        { status: "Completed", msg: "वितरण प्रक्रिया पूरी हो चुकी है।" },
+      ];
+
+      const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+
+      statusText.innerText = "📌 स्थिति: " + randomStatus.status;
+      messageText.innerText = randomStatus.msg;
+      box.style.display = "block";
+    }
+  </script>
+
+</body>
+</html>

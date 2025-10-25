@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Laptop Yojana Portal</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body { background-color: #f4f7fc; }
+
+    /* Header */
+    header {
+      background: linear-gradient(90deg, #004aad, #0073e6);
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 600;
+    }
+    .logo img { width: 40px; height: 40px; border-radius: 50%; background: white; }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    nav ul li a:hover {
+      color: #ffea00;
+    }
+
+    .register-btn {
+      background: #ffea00;
+      color: #004aad;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .register-btn:hover {
+      background: white;
+    }
+
+    /* Slideshow */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+    }
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .active {
+      opacity: 1;
+    }
+
+    /* Buttons Section */
+    .buttons {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .buttons button {
+      background: #004aad;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      margin: 10px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .buttons button:hover {
+      background: #0073e6;
+    }
+
+    /* How to Apply */
+    .how-to-apply {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .how-to-apply h2 {
+      color: #004aad;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .how-to-apply ol {
+      margin-left: 20px;
+      line-height: 1.8;
+    }
+
+    /* FAQ */
+    .faq {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fefefe;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .faq h2 {
+      color: #004aad;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    details {
+      background: white;
+      margin-bottom: 10px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    summary {
+      font-weight: bold;
+      color: #0073e6;
+    }
+
+    footer {
+      background: #004aad;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      header { flex-direction: column; text-align: center; }
+      nav ul { justify-content: center; }
+      .slideshow-container { height: 250px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Government_Seal_of_India.svg/1200px-Government_Seal_of_India.svg.png" alt="Logo">
+      <span>Student Laptop Yojana</span>
+    </div>
+
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Scheme</a></li>
+        <li><a href="#">Eligibility</a></li>
+        <li><a href="#">Documents</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    
+
+    <button class="register-btn" onclick="window.location.href='register.html'">Register</button>
+
+  </header>
+
+  <div class="slideshow-container">
+    <div class="slide active"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c" alt="Slide 1"></div>
+    <div class="slide"><img src="https://images.unsplash.com/photo-1581090700227-1e37b190418e" alt="Slide 2"></div>
+    <div class="slide"><img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1" alt="Slide 3"></div>
+  </div>
+
+  <div class="buttons">
+  
+    <button class="register-btn" onclick="window.location.href='register.html'">Register</button>
+
+    <button onclick="window.location.href='track.html'">Track Application</button>
+
+  </div>
+
+  <section class="how-to-apply">
+    <h2>📋 How to Apply</h2>
+    <ol>
+      <li>सबसे पहले <strong>Register for Laptop</strong> बटन पर क्लिक करें।</li>
+      <li>अपनी जानकारी जैसे नाम, पिता का नाम, जन्मतिथि, मोबाइल नंबर, और कक्षा भरें।</li>
+      <li>10वीं रोल नंबर या स्कूल डिटेल्स दर्ज करें।</li>
+      <li>आवश्यक दस्तावेज़ (Aadhar Card, Photo, School ID) अपलोड करें।</li>
+      <li>₹250 प्रोसेसिंग फीस ऑनलाइन जमा करें।</li>
+      <li>आवेदन सबमिट करने के बाद Reference Number सुरक्षित रखें।</li>
+      <li>Track Application बटन से अपनी स्थिति देखें।</li>
+    </ol>
+  </section>
+
+  <section class="faq">
+    <h2>❓ Frequently Asked Questions</h2>
+
+    <details>
+      <summary>कौन आवेदन कर सकता है?</summary>
+      <p>कक्षा 5 से 10 तक के सरकारी या मान्यता प्राप्त स्कूल के छात्र आवेदन कर सकते हैं।</p>
+    </details>
+
+    <details>
+      <summary>क्या यह योजना सभी राज्यों के लिए है?</summary>
+      <p>यह योजना केवल उन राज्यों में लागू है जहां सरकार ने इसे स्वीकृति दी है।</p>
+    </details>
+
+    <details>
+      <summary>₹250 प्रोसेसिंग फीस क्यों ली जा रही है?</summary>
+      <p>यह फीस आवेदन की सत्यापन और डेटा प्रोसेसिंग के लिए ली जाती है।</p>
+    </details>
+
+    <details>
+      <summary>लैपटॉप कब वितरित किया जाएगा?</summary>
+      <p>आवेदन स्वीकृति के 45 दिनों के भीतर वितरण प्रक्रिया शुरू होगी।</p>
+    </details>
+  </section>
+
+  <footer>
+    © 2025 Student Laptop Yojana | Designed by Govt. IT Dept.
+  </footer>
+
+  <script>
+    let slides = document.querySelectorAll(".slide");
+    let index = 0;
+
+    function showNextSlide() {
+      slides[index].classList.remove("active");
+      index = (index + 1) % slides.length;
+      slides[index].classList.add("active");
+    }
+
+    setInterval(showNextSlide, 5000);
+  </script>
+</body>
+</html>

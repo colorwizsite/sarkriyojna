@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pay ₹250 - Student Laptop Yojana</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+    body{background:#f4f7fc;color:#0b2545;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+    header{width:100%;background:linear-gradient(90deg,#004aad,#0073e6);color:#fff;padding:14px 18px;text-align:center;font-weight:700;}
+    .container{width:95%;max-width:900px;background:#fff;margin:22px 0;padding:20px;border-radius:12px;box-shadow:0 8px 30px rgba(2,22,80,0.08);}
+    h1{color:#004aad;margin-bottom:8px;font-size:20px;}
+    p.lead{color:#333;margin-bottom:18px;font-size:14px;}
+    .amount{font-weight:800;font-size:28px;color:#004aad;margin:8px 0 16px;}
+    .apps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px;}
+    .app-btn{background:#f1f8ff;border:1px solid #dceeff;padding:12px;border-radius:10px;text-align:center;cursor:pointer;transition:transform .12s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+    .app-btn:hover{transform:translateY(-4px);}
+    .app-icon{width:46px;height:46px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;font-weight:700;}
+    .note{background:#fff8e1;border-left:4px solid #ffb300;padding:10px;border-radius:6px;margin:14px 0;font-size:13px;color:#333;}
+    .qr-section{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:10px;}
+    .qr{background:#fff;border:1px solid #eee;padding:10px;border-radius:8px;}
+    .controls{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+    .btn{padding:10px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:600;}
+    .btn-primary{background:#004aad;color:#fff;}
+    .btn-ghost{background:#f1f5ff;border:1px solid #dbeafe;color:#004aad;}
+    .small{font-size:13px;padding:8px 10px;border-radius:8px;}
+    .copy-success{color:green;font-size:13px;margin-left:8px;}
+    footer{width:100%;text-align:center;padding:12px 8px;margin-top:auto;background:#fff;color:#666;font-size:13px;border-top:1px solid #eee;}
+    @media (max-width:640px){ .apps{grid-template-columns:repeat(2,1fr);} .amount{font-size:22px;} }
+  </style>
+</head>
+<body>
+
+  <header>Student Laptop Yojana — Payment</header>
+
+  <main class="container" role="main">
+    <h1>Processing Fees — ₹250</h1>
+    <p class="lead">कृपया नीचे उपलब्ध किसी भी UPI ऐप के माध्यम से ₹250 जमा करें। पेमेंट करने के बाद "I HAVE PAID" दबाकर अपना Application ID और Transaction ID दर्ज करें।</p>
+
+    <div class="amount">₹250.00</div>
+
+    <div>
+      <strong>UPI ID:</strong> <span id="upiIdText">8227834030@ybl</span>
+      <button class="btn small" id="copyUpiBtn" style="margin-left:10px;">Copy UPI ID</button>
+      <span id="copyMsg" class="copy-success" aria-live="polite"></span>
+    </div>
+
+    <div class="note">
+      Mobile पर काम करेगा — Android/iOS दोनों में UPI apps `upi://` deep link पढ़कर ऐप खोलते हैं। अगर ऐप नहीं खुलता तो QR स्कैन कर के पेमेण्ट करें या UPI ID copy करके ऐप में पेस्ट कर दें।
+    </div>
+
+    <!-- Popular apps -->
+    <div style="margin-top:12px;">
+      <div style="font-weight:700;margin-bottom:8px;">Open in popular UPI apps</div>
+      <div class="apps" role="list">
+        <!-- Each button triggers attempt to open UPI deep link or intent -->
+        <div class="app-btn" onclick="openUpi('default')">
+          <div class="app-icon">UPI</div>
+          <div>Other UPI Apps</div>
+        </div>
+
+        <div class="app-btn" onclick="openIntent('com.google.android.apps.nbu.paisa.user')">
+          <div class="app-icon">G</div>
+          <div>Google Pay</div>
+        </div>
+
+        <div class="app-btn" onclick="openIntent('com.phonepe.app')">
+          <div class="app-icon">P</div>
+          <div>PhonePe</div>
+        </div>
+
+        <div class="app-btn" onclick="openIntent('net.one97.paytm')">
+          <div class="app-icon">PT</div>
+          <div>Paytm</div>
+        </div>
+
+        <div class="app-btn" onclick="openIntent('in.org.npci.upiapp')">
+          <div class="app-icon">BH</div>
+          <div>BHIM</div>
+        </div>
+
+        <div class="app-btn" onclick="openIntent('com.amazon.pay')">
+          <div class="app-icon">A</div>
+          <div>Amazon Pay</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR and fallback -->
+    <section class="qr-section" aria-labelledby="qrHeading" style="margin-top:12px;">
+      <div style="flex:1;min-width:220px;">
+        <div id="qrHeading" style="font-weight:700;margin-bottom:8px;">Scan QR to Pay</div>
+        <div class="qr">
+          <img id="qrImg" src="" alt="UPI QR Code" width="200" height="200" />
+        </div>
+        <div style="font-size:13px;margin-top:8px;color:#444;">(QR contains UPI payment link)</div>
+      </div>
+
+      <div style="flex:1;min-width:200px;">
+        <div style="font-weight:700;margin-bottom:8px;">Manual / Fallback</div>
+        <div style="margin-bottom:8px;">अगर ऊपर से ऐप नहीं खुलता — UPI ID copy करें और अपने बैंक/UPI ऐप में "Send Money" में पेस्ट करके ₹250 भेजें।</div>
+
+        <label for="payerName" style="display:block;margin-top:8px;font-weight:600;">Payer Name (optional)</label>
+        <input id="payerName" placeholder="Enter name (optional)" style="width:100%;padding:8px;border-radius:6px;border:1px solid #ddd;margin-bottom:8px;">
+
+        <div class="controls">
+          <button class="btn btn-primary" onclick="manualPaid()">I HAVE PAID</button>
+          <button class="btn btn-ghost" onclick="copyUpi()">Copy UPI ID</button>
+        </div>
+
+        <div style="margin-top:10px;font-size:13px;color:#666;">
+          Payment purpose: <strong>Processing Fee</strong><br>
+          Suggested note: <strong>LPY-ProcessingFee</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- After paying modal-like area -->
+    <div id="afterPay" style="display:none;margin-top:18px;background:#eefbf4;border-left:4px solid #1e9a4b;padding:12px;border-radius:8px;">
+      <div style="font-weight:700;margin-bottom:6px;">Payment recorded (local)</div>
+      <div style="margin-bottom:8px;">कृपया नीचे अपना Application ID और Transaction/Ref. ID डालें — यह client-side रिकॉर्ड है। आपको असली verification के लिए backend या admin verify करना होगा।</div>
+
+      <label style="display:block;margin-top:8px;font-weight:600;">Application ID</label>
+      <input id="afterAppId" placeholder="उदा. LPT12345" style="width:100%;padding:8px;border-radius:6px;border:1px solid #ddd;margin-bottom:8px;">
+
+      <label style="display:block;margin-top:8px;font-weight:600;">Transaction ID / UPI Ref</label>
+      <input id="afterTxn" placeholder="UPI Ref / Txn ID" style="width:100%;padding:8px;border-radius:6px;border:1px solid #ddd;margin-bottom:10px;">
+
+      <div class="controls">
+        <button class="btn btn-primary" onclick="submitPaymentProof()">Submit Proof</button>
+        <button class="btn btn-ghost" onclick="cancelAfter()">Cancel</button>
+      </div>
+
+      <div id="submitMsg" style="margin-top:10px;font-size:13px;color:#444;"></div>
+    </div>
+
+  </main>
+
+  <footer>© 2025 Student Laptop Yojana — Use only your own UPI ID to pay. Never share UPI PIN.</footer>
+
+  <script>
+    // --- Configuration (use user's UPI ID provided) ---
+    const UPI_ID = "8227834030@ybl";
+    const PAYEE_NAME = "Student Laptop Yojana";
+    const AMOUNT = "250.00";
+    const NOTE = "Processing Fee";
+
+    // Build UPI URI
+    function buildUpiUri() {
+      // required fields: pa (payee address), pn (payee name), am (amount), cu (currency)
+      const pa = encodeURIComponent(UPI_ID);
+      const pn = encodeURIComponent(PAYEE_NAME);
+      const am = encodeURIComponent(AMOUNT);
+      const tn = encodeURIComponent(NOTE);
+      const cu = "INR";
+      return `upi://pay?pa=${pa}&pn=${pn}&am=${am}&tn=${tn}&cu=${cu}`;
+    }
+
+    // Set QR image using Google Chart API (simple and works)
+    const qrImg = document.getElementById("qrImg");
+    const upiUri = buildUpiUri();
+    // Note: using Google Chart API for quick QR generation
+    qrImg.src = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + encodeURIComponent(upiUri);
+
+    // Copy UPI ID
+    async function copyUpi() {
+      try {
+        await navigator.clipboard.writeText(UPI_ID);
+        showCopyMsg("UPI ID copied to clipboard.");
+      } catch (e) {
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = UPI_ID;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        showCopyMsg("UPI ID copied to clipboard.");
+      }
+    }
+
+    document.getElementById("copyUpiBtn").addEventListener("click", copyUpi);
+
+    function showCopyMsg(text){
+      const el = document.getElementById("copyMsg");
+      el.innerText = text;
+      setTimeout(()=>{ el.innerText = ""; }, 2500);
+    }
+
+    // Open UPI link generically
+    function openUpi(type = "default") {
+      // Try normal upi:// link first
+      window.location.href = upiUri;
+      // On some Android devices, using a short delay & then intent fallback may help.
+      setTimeout(()=> {
+        // no-op fallback message — user can scan QR
+      }, 500);
+    }
+
+    // Open using intent with package (Android). If app not installed, Android will show chooser/ error.
+    function openIntent(packageName) {
+      // Construct an Android intent URI; many UPI apps accept intent with scheme=upi
+      const upiEncoded = encodeURIComponent(upiUri);
+      const intentUri = `intent://upi/pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${encodeURIComponent(AMOUNT)}&tn=${encodeURIComponent(NOTE)}&cu=INR#Intent;scheme=upi;package=${packageName};end`;
+      // Try intent first (for Android). On iOS this will do nothing; fallback to upi://
+      window.location.href = intentUri;
+      // Also set a timeout to attempt generic upi link after short time
+      setTimeout(() => { window.location.href = upiUri; }, 800);
+    }
+
+    // When user clicks "I HAVE PAID"
+    function manualPaid() {
+      // Show the afterPay area where they can submit txn id
+      document.getElementById("afterPay").style.display = "block";
+      // Pre-fill app id if available in URL or localStorage
+      const savedApp = localStorage.getItem("lastAppId") || "";
+      document.getElementById("afterAppId").value = savedApp;
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    // Submit the proof (client-side demo)
+    function submitPaymentProof() {
+      const appId = document.getElementById("afterAppId").value.trim();
+      const txn = document.getElementById("afterTxn").value.trim();
+      const msgEl = document.getElementById("submitMsg");
+
+      if(!appId || !txn) {
+        msgEl.style.color = "red";
+        msgEl.innerText = "कृपया Application ID और Transaction ID दोनों दर्ज करें।";
+        return;
+      }
+
+      // Store locally (demo). Real system should send this to server for verification.
+      const record = {
+        appId, txn, upiId: UPI_ID, amount: AMOUNT, time: new Date().toISOString()
+      };
+      // Save to localStorage array
+      const prev = JSON.parse(localStorage.getItem("paymentProofs") || "[]");
+      prev.push(record);
+      localStorage.setItem("paymentProofs", JSON.stringify(prev));
+      localStorage.setItem("lastAppId", appId);
+
+      msgEl.style.color = "green";
+      msgEl.innerText = "Payment details recorded locally. Admin will verify and update application status.";
+      // Optionally redirect to registration or track page
+      setTimeout(()=> {
+        // For convenience, redirect to track page (if exists). Change if your file names differ.
+        if(confirm("Payment recorded. क्या आप Track Application पेज पर जाना चाहेंगे?")) {
+          window.location.href = "track.html";
+        }
+      }, 900);
+    }
+
+    function cancelAfter() {
+      document.getElementById("afterPay").style.display = "none";
+    }
+
+    // Expose copy function for fallback button
+    window.copyUpi = copyUpi;
+    window.openUpi = openUpi;
+    window.openIntent = openIntent;
+    window.manualPaid = manualPaid;
+    window.submitPaymentProof = submitPaymentProof;
+    window.cancelAfter = cancelAfter;
+  </script>
+</body>
+</html>
